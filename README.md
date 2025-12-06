@@ -95,7 +95,7 @@ Diese Anleitung führt Sie durch die Einrichtung und lokale Ausführung des Proj
 │   ├── main
 │   │   ├── java
 │   │   │   ├── org
-│   │   │   │   ├── group_04_01
+│   │   │   │   ├── v_04_01
 │   │   │   │   │   ├── RunServer.java            # Einstiegspunkt zum Starten des Servers
 │   │   │   │   │   ├── dataprocessing
 │   │   │   │   │   │   ├── DataFactory.java        # Datenverarbeitung und Datenbankinteraktion
@@ -116,7 +116,5 @@ Diese Anleitung führt Sie durch die Einrichtung und lokale Ausführung des Proj
 │   │   │   ├── freemarker                # FreeMarker-Template-Dateien (Frontend)
 │   └── test
 │       └── java
-│           └── org
-│               └── group_04_01
-│                   └── ExampleTest.java        # Beispielhafte JUnit-Tests
+│           └── Test.java        # Beispielhafte JUnit-Tests
 ```
