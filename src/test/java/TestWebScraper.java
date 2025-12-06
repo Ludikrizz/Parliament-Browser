@@ -1,15 +1,15 @@
 import org.bson.Document;
 import org.dom4j.DocumentException;
-import org.group_04_01.database.MongoDBHandler;
-import org.group_04_01.dataprocessing.DataFactory;
-import org.group_04_01.dataprocessing.datastructure.Rede;
-import org.group_04_01.dataprocessing.datastructure.imlementation.Abgeordneter_File_Impl;
-import org.group_04_01.dataprocessing.datastructure.imlementation.Abgeordneter_MongoDB_Impl;
-import org.group_04_01.dataprocessing.datastructure.imlementation.Rede_File_Impl;
-import org.group_04_01.dataprocessing.datastructure.imlementation.Rede_MongoDB_Impl;
-import org.group_04_01.dataprocessing.helper.NLPAnalyzer;
-import org.group_04_01.dataprocessing.helper.Webscraper;
 import org.junit.jupiter.api.Test;
+import org.v_04_01.database.MongoDBHandler;
+import org.v_04_01.dataprocessing.DataFactory;
+import org.v_04_01.dataprocessing.datastructure.Rede;
+import org.v_04_01.dataprocessing.datastructure.imlementation.Abgeordneter_File_Impl;
+import org.v_04_01.dataprocessing.datastructure.imlementation.Abgeordneter_MongoDB_Impl;
+import org.v_04_01.dataprocessing.datastructure.imlementation.Rede_File_Impl;
+import org.v_04_01.dataprocessing.datastructure.imlementation.Rede_MongoDB_Impl;
+import org.v_04_01.dataprocessing.helper.NLPAnalyzer;
+import org.v_04_01.dataprocessing.helper.Webscraper;
 
 import java.io.IOException;
 import java.util.HashSet;

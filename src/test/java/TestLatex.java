@@ -1,11 +1,11 @@
 import org.bson.Document;
-import org.group_04_01.database.MongoDBHandler;
-import org.group_04_01.dataprocessing.datastructure.Sitzung;
-import org.group_04_01.dataprocessing.datastructure.Tagesordnung;
-import org.group_04_01.dataprocessing.datastructure.imlementation.Sitzung_MongoDB_Impl;
-import org.group_04_01.dataprocessing.datastructure.imlementation.Tagesordnung_MongoDB_Impl;
-import org.group_04_01.dataprocessing.helper.LatexDokumentExport;
 import org.junit.jupiter.api.Test;
+import org.v_04_01.database.MongoDBHandler;
+import org.v_04_01.dataprocessing.datastructure.Sitzung;
+import org.v_04_01.dataprocessing.datastructure.Tagesordnung;
+import org.v_04_01.dataprocessing.datastructure.imlementation.Sitzung_MongoDB_Impl;
+import org.v_04_01.dataprocessing.datastructure.imlementation.Tagesordnung_MongoDB_Impl;
+import org.v_04_01.dataprocessing.helper.LatexDokumentExport;
 
 import java.util.Arrays;
 import java.util.HashSet;
