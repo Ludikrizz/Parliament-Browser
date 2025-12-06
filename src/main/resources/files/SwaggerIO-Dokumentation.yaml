@@ -1,0 +1,1760 @@
+openapi: 3.0.3
+info:
+  title: ParliamentBrowser - OpenAPI 3.0
+  version: 1.0.11
+  description: The Description of the API of the ParliamentBrowser
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:4567
+paths:
+  /abgeordnete:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt Java Objekte für Freemarker zurück (alle Abgeordneten)
+      parameters:
+        - name: vorname
+          in: query
+          description: Gibt alle Abgeordneten zurück deren Vorname übereinstimmt
+          schema:
+            type: string
+        - name: nachname
+          in: query
+          description: Gibt alle Abgeordneten zurück deren Nachname übereinstimmt
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Abgeordnete
+  /abgeordnete/{id}:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt Java Objekt des Abgeordneten mit der id für Freemarker zurück
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Die id des Anzuzigenen Abgeordneten
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Abgeordnete
+  /edit/abgeordneter:
+    description: Eine Seite des Frontends die dazu da ist Abgeordnete zu editieren oder anzulegen
+    get:
+      summary: Gibt Java Objekte für Freemarker zurück (ein Abgeordneter)
+      parameters:
+        - name: id
+          in: query
+          description: Wenn mit übergeben, wird der Abgeordnete bearbeitet, sonst ein neuer erstellt
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das recht einen abgeordneten zu erstellen bzw. zu editieren
+        "404":
+          description: die übergebene id führt zu keinem Abgeordneten
+      tags:
+        - Abgeordnete
+  /parliamentbrowser/api/data/representative/save:
+    description: API Endpunkt um einen neuen Abgeordeten zu speichern oder die Änderungen an einem zu speichern
+    post:
+      summary: Die Daten des Abgeordneten werden in die DB gelegt
+      requestBody:
+        description: Die Daten des Abgeordneten
+        content:
+          application/json:
+            example: |-
+              {
+                      "_id": 11004378,
+                      "vorname": "Achim",
+                      "anrede": "",
+                      "geburtsort": "Rahden",
+                      "geschlecht": "MAENNLICH",
+                      "sterbedatum": "",
+                      "ortszusatz": "(Minden)",
+                      "religion": "evangelisch",
+                      "geburtsdatum": "1959-05-02",
+                      "beruf": "Diplom-Soziologe",
+                      "nachname": "Post",
+                      "adelssuffix": "",
+                      "partei": "SPD",
+                      "akademischer_titel": "",
+                      "reden_ids": [
+                          "ID1913000900",
+                          "ID206300700",
+                          "ID203700700",
+                          "ID19404000"
+                      ],
+                      "mandate": [
+                          {
+                              "end_date": "",
+                              "wahlperiode": 20,
+                              "mandatsart": "DIREKTWAHL",
+                              "start_date": "2021-10-26"
+                          },
+                          {
+                              "end_date": "2021-10-26",
+                              "wahlperiode": 19,
+                              "mandatsart": "DIREKTWAHL",
+                              "start_date": "2017-10-24"
+                          }
+                      ],
+                      "institutionen": [
+                          {
+                              "funktion": "Stellvertretendes Mitglied",
+                              "titel": "Haushaltsausschuss",
+                              "inst_art": "Ausschuss",
+                              "start_date": "2021-12-15"
+                          },
+                          {
+                              "funktion": "Ordentliches Mitglied",
+                              "titel": "Hauptausschuss",
+                              "inst_art": "Ausschuss",
+                              "start_date": "2021-11-11"
+                          }
+                      ],
+                      "pictures": [],
+                      "vita": "1978 Abitur am ...",
+                      "fraktionsmitgliedschaften": [
+                          {
+                              "end_date": "",
+                              "fraktion": "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                              "wahlperiode": 20,
+                              "start_date": "2021-12-09"
+                          },
+                          {
+                              "end_date": "2021-10-26",
+                              "fraktion": "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                              "wahlperiode": 19,
+                              "start_date": "2017-12-05"
+                          }
+                      ]
+                      
+                  }
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              example: { "message": "Representative editet", "id": 11003848 }
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das Recht einen Abgeordneten zu erstellen oder zu editieren
+      tags:
+        - Abgeordnete
+  /parliamentbrowser/api/data/representative/delete:
+    description: API Endpunkt um einen neuen Abgeordeten zu löschen
+    delete:
+      summary: der Abgeordnete mit der ID wird gelöscht
+      parameters:
+        - name: id
+          in: query
+          description: id des zu löschenden Abgeordneten
+          required: true
+          schema:
+            type: integer
+            format: int32
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage/Löschung
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das Recht einen Abgeordneten zu löschen
+      tags:
+        - Abgeordnete
+  /parliamentbrowser/api/data/representatives:
+    description: "Returns all Representatives from the German Parliament "
+    get:
+      summary: Gibt alle Abgeordneten zurück
+      description: >-
+        Gibt einen Abgeordneten bei Übergabe der ID zurück oder mehrere in einer
+        Liste, wenn keine ID übergeben wird
+      parameters:
+        - name: id
+          in: query
+          description: Gibt den Abgeordneten mit angegebener ID zurück
+          schema:
+            type: integer
+            format: int32
+        - name: partei
+          in: query
+          description: Gibt alle Abgeordneten der Partei zurück
+          schema:
+            type: string
+        - name: wahlperidoe
+          in: query
+          description: Gibt alle Abgeordneten der Wahlperiode  zurück
+          schema:
+            type: integer
+            format: int32
+            enum:
+              - 19
+              - 20
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              examples:
+                Abgeordneter:
+                  value: |-
+                    {
+                            "_id": 11004378,
+                            "vorname": "Achim",
+                            "anrede": "",
+                            "geburtsort": "Rahden",
+                            "geschlecht": "MAENNLICH",
+                            "sterbedatum": "",
+                            "ortszusatz": "(Minden)",
+                            "religion": "evangelisch",
+                            "geburtsdatum": "1959-05-02",
+                            "beruf": "Diplom-Soziologe",
+                            "nachname": "Post",
+                            "adelssuffix": "",
+                            "partei": "SPD",
+                            "akademischer_titel": "",
+                            "reden_ids": [
+                                "ID1913000900",
+                                "ID206300700",
+                                "ID203700700",
+                                "ID19404000"
+                            ],
+                            "mandate": [
+                                {
+                                    "end_date": "",
+                                    "wahlperiode": 20,
+                                    "mandatsart": "DIREKTWAHL",
+                                    "start_date": "2021-10-26"
+                                },
+                                {
+                                    "end_date": "2021-10-26",
+                                    "wahlperiode": 19,
+                                    "mandatsart": "DIREKTWAHL",
+                                    "start_date": "2017-10-24"
+                                }
+                            ],
+                            "institutionen": [
+                                {
+                                    "funktion": "Stellvertretendes Mitglied",
+                                    "titel": "Haushaltsausschuss",
+                                    "inst_art": "Ausschuss",
+                                    "start_date": "2021-12-15"
+                                },
+                                {
+                                    "funktion": "Ordentliches Mitglied",
+                                    "titel": "Hauptausschuss",
+                                    "inst_art": "Ausschuss",
+                                    "start_date": "2021-11-11"
+                                }
+                            ],
+                            "pictures": [],
+                            "vita": "1978 Abitur am ...",
+                            "fraktionsmitgliedschaften": [
+                                {
+                                    "end_date": "",
+                                    "fraktion": "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                                    "wahlperiode": 20,
+                                    "start_date": "2021-12-09"
+                                },
+                                {
+                                    "end_date": "2021-10-26",
+                                    "fraktion": "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                                    "wahlperiode": 19,
+                                    "start_date": "2017-12-05"
+                                }
+                            ]
+                            
+                        }
+      tags:
+        - Abgeordnete
+  /parliamentbrowser/api/data/speakers/speech-distribution:
+    description: Für die Darstellung in den Diagrammen
+    get:
+      summary: Gibt die Anzahl der Reden pro Abgeordneten und deren Bilder zurück
+      parameters:
+        - name: text
+          in: query
+          description: Gibt alle Abgeordneten zurück in deren Rede der Text vorkommt
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: >-
+            Gibt alle Abgeordneten und die Anzahl Ihrer Reden, die nach dem
+            Datum gehalten wurden
+          schema:
+            type: string
+            example: "2017-12-21"
+        - name: toDate
+          in: query
+          description: >-
+            Gibt alle Abgeordneten und die Anzahl Ihrer Reden, die bis zu dem
+            Datum gehalten wurden
+          schema:
+            type: string
+            example: "2018-06-23"
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              examples:
+                speech-distribution:
+                  value: |-
+                    [
+                        {
+                            "picture_url": "data/pictures/placeholder.jpg",
+                            "vorname": "Erwin",
+                            "nachname": "Rüddel",
+                            "id": 11004139,
+                            "speechesCount": 38
+                        },
+                        {
+                            "picture_url": "data/pictures/11004285/representativeNr1.jpg",
+                            "vorname": "Fritz",
+                            "nachname": "Güntzler",
+                            "id": 11004285,
+                            "speechesCount": 82
+                        }
+                    ]
+      tags:
+        - Abgeordnete
+        - Charts
+
+  /reden:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt Java Objekte für Freemarker zurück (alle Reden bzw Sitzungen)
+      description: Gibt etweder Sitzungs Objekte mit Tagesordnungspunkten zurück oder alle Reden, welche das Wort des Parameters text beinhalten
+      parameters:
+        - name: text
+          in: query
+          description: der Text/ das Wort das in den Reden vorkommen soll
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Rede
+        - Sitzung
+  /reden/{id}:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt eine Rede als Java-Objekt für Freemarker zurück
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: die ID der Rede
+          schema:
+            type: string
+            example: ID1910011100
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Rede
+        - Sitzung
+  /edit/rede:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt Java Objekte für Freemarker zurück (Rede zum bearbeiten)
+      description: Entweder wird eine Template gerendert um eine neue Rede zu erstellen oder eine bereits erstellte Rede wird geladen zum editieren
+      parameters:
+        - name: id
+          in: query
+          description: Id der Rede
+          schema:
+            type: string
+            example: ID1910011100
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Rede
+        - Sitzung
+  /parliamentbrowser/api/data/speeches:
+    description: Es werden Reden zurückgegeben
+    get:
+      summary: Reden, die den Parametern entsprechen werden zurückgegeben
+      parameters:
+        - name: top
+          in: query
+          description: nummer des Tagesordnungspunktes
+          schema:
+            type: integer
+            format: int32
+        - name: sitzung
+          in: query
+          description: nummer der Sitzung
+          schema:
+            type: integer
+            format: int32
+        - name: wp
+          in: query
+          description: nummer der Wahlperiode (da die Nummerierung der Sitzung pro Wahlperiode von neuem beginnt)
+          schema:
+            type: integer
+            format: int32
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Rede
+  /parliamentbrowser/api/data/speeches/entities:
+    description: Für die Darstellung in den Diagrammen
+    get:
+      summary: Die NamedEntities die in den Reden vorkommen, mit Anzahl
+      parameters:
+        - name: text
+          in: query
+          description: nur die Reden mit dem Text/Wort werden beachtet
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: nur die Reden ab dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2017-12-21"
+        - name: toDate
+          in: query
+          description: nur die Reden bis zu dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2018-06-23"
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              examples:
+                namedEntities:
+                  value: |-
+                    [
+                         {
+                            "entities": [
+                                {
+                                    "count": 1569,
+                                    "label": "ORG"
+                                },
+                                {
+                                    "count": 2239,
+                                    "label": "LOC"
+                                },                                
+                                {
+                                    "count": 1701,
+                                    "label": "MISC"
+                                },
+                                {
+                                    "count": 754,
+                                    "label": "PER"
+                                }
+                            ]
+                        }
+                    ]
+      tags:
+        - Rede
+        - Charts
+  /parliamentbrowser/api/data/speeches/pos:
+    description: Für die Darstellung in den Diagrammen
+    get:
+      summary: Die POS die in den Reden vorkommen, mit Anzahl
+      parameters:
+        - name: text
+          in: query
+          description: nur die Reden mit dem Text/Wort werden beachtet
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: nur die Reden ab dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2017-12-21"
+        - name: toDate
+          in: query
+          description: nur die Reden bis zu dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2018-06-23"
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              examples:
+                namedEntities:
+                  value: |-
+                    [
+                        {
+                            "pos": [
+                                {
+                                    "count": 35379,
+                                    "label": "NN"
+                                },
+                                {
+                                    "count": 13251,
+                                    "label": "APPR"
+                                },
+                                {
+                                    "count": 8872,
+                                    "label": "ADJA"
+                                },
+                                {
+                                    "count": 12031,
+                                    "label": "$,"
+                                },
+                                {
+                                    "count": 7042,
+                                    "label": "KON"
+                                },
+                                {
+                                    "count": 640,
+                                    "label": "PWAV"
+                                },
+                                {
+                                    "count": 1992,
+                                    "label": "PROAV"
+                                },
+                                {
+                                    "count": 330,
+                                    "label": "KOUI"
+                                },
+                                {
+                                    "count": 174,
+                                    "label": "PTKANT"
+                                },
+                                {
+                                    "count": 15,
+                                    "label": "VVIMP"
+                                },
+                                {
+                                    "count": 1143,
+                                    "label": "PTKZU"
+                                },
+                                {
+                                    "count": 7380,
+                                    "label": "VVFIN"
+                                },
+                                {
+                                    "count": 13005,
+                                    "label": "$."
+                                },
+                                {
+                                    "count": 391,
+                                    "label": "KOKOM"
+                                },
+                                {
+                                    "count": 8,
+                                    "label": "APPO"
+                                },
+                                {
+                                    "count": 2407,
+                                    "label": "VMFIN"
+                                },
+                                {
+                                    "count": 68,
+                                    "label": "PWAT"
+                                },
+                                {
+                                    "count": 366,
+                                    "label": "VVIZU"
+                                },
+                                {
+                                    "count": 17,
+                                    "label": "PRELAT"
+                                },
+                                {
+                                    "count": 5717,
+                                    "label": "ADJD"
+                                },
+                                {
+                                    "count": 14489,
+                                    "label": "ADV"
+                                },
+                                {
+                                    "count": 2475,
+                                    "label": "PDS"
+                                },
+                                {
+                                    "count": 10653,
+                                    "label": "PPER"
+                                },
+                                {
+                                    "count": 797,
+                                    "label": "PTKVZ"
+                                },
+                                {
+                                    "count": 4910,
+                                    "label": "VVINF"
+                                },
+                                {
+                                    "count": 3048,
+                                    "label": "KOUS"
+                                },
+                                {
+                                    "count": 2434,
+                                    "label": "$("
+                                },
+                                {
+                                    "count": 4061,
+                                    "label": "VVPP"
+                                },
+                                {
+                                    "count": 47,
+                                    "label": "APZR"
+                                },
+                                {
+                                    "count": 1830,
+                                    "label": "PIS"
+                                },
+                                {
+                                    "count": 2190,
+                                    "label": "PPOSAT"
+                                },
+                                {
+                                    "count": 1703,
+                                    "label": "PRELS"
+                                },
+                                {
+                                    "count": 3571,
+                                    "label": "NE"
+                                },
+                                {
+                                    "count": 255,
+                                    "label": "VMINF"
+                                },
+                                {
+                                    "count": 194,
+                                    "label": "VAPP"
+                                },
+                                {
+                                    "count": 885,
+                                    "label": "VAINF"
+                                },
+                                {
+                                    "count": 1973,
+                                    "label": "PIAT"
+                                },
+                                {
+                                    "count": 471,
+                                    "label": "PWS"
+                                },
+                                {
+                                    "count": 16513,
+                                    "label": "ART"
+                                },
+                                {
+                                    "count": 1138,
+                                    "label": "PRF"
+                                },
+                                {
+                                    "count": 2417,
+                                    "label": "APPRART"
+                                },
+                                {
+                                    "count": 1528,
+                                    "label": "CARD"
+                                },
+                                {
+                                    "count": 8060,
+                                    "label": "VAFIN"
+                                },
+                                {
+                                    "count": 1632,
+                                    "label": "PDAT"
+                                },
+                                {
+                                    "count": 114,
+                                    "label": "PTKA"
+                                },
+                                {
+                                    "count": 10,
+                                    "label": "ITJ"
+                                },
+                                {
+                                    "count": 4,
+                                    "label": "VMPP"
+                                },
+                                {
+                                    "count": 90,
+                                    "label": "FM"
+                                },
+                                {
+                                    "count": 196,
+                                    "label": "TRUNC"
+                                },
+                                {
+                                    "count": 11,
+                                    "label": "XY"
+                                },
+                                {
+                                    "count": 1805,
+                                    "label": "PTKNEG"
+                                }
+                            ]
+                        }
+                    ]
+
+      tags:
+        - Rede
+  /parliamentbrowser/api/data/speeches/sentiments:
+    description: Für die Darstellung in den Diagrammen
+    get:
+      summary: Die Sentiments die die Rede hat
+      parameters:
+        - name: text
+          in: query
+          description: nur die Reden mit dem Text/Wort werden beachtet
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: nur die Reden ab dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2017-12-21"
+        - name: toDate
+          in: query
+          description: nur die Reden bis zu dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2018-06-23"
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              examples:
+                namedEntities:
+                  value: |-
+                    [
+                        {
+                            "sentiments": [
+                                {
+                                    "score": 0.04031690115307526,
+                                    "label": "neg"
+                                },
+                                {
+                                    "score": 0.17572537322825918,
+                                    "label": "sentiment"
+                                },
+                                {
+                                    "score": 0.8280678499939766,
+                                    "label": "neu"
+                                },
+                                {
+                                    "score": 0.12934607875771098,
+                                    "label": "pos"
+                                }
+                            ]
+                        }
+                    ]
+      tags:
+        - Rede
+        - Charts
+  /parliamentbrowser/api/data/speeches/topics:
+    description: Für die Darstellung in den Diagrammen
+    get:
+      summary: Die Sentiments die die Rede hat
+      parameters:
+        - name: text
+          in: query
+          description: nur die Reden mit dem Text/Wort werden beachtet
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: nur die Reden ab dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2017-12-21"
+        - name: toDate
+          in: query
+          description: nur die Reden bis zu dem Datum werden beachtet
+          schema:
+            type: string
+            example: "2018-06-23"
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              examples:
+                namedEntities:
+                  value: |-
+                    [
+                        {
+                            "topics": [
+                                {
+                                    "score": 0.06775530934501704,
+                                    "label": "Civil"
+                                },
+                                {
+                                    "score": 0.011743395531254043,
+                                    "label": "Education"
+                                },
+                                {
+                                    "score": 0.006732475438477587,
+                                    "label": "Housing"
+                                },
+                                {
+                                    "score": 0.010181918752834172,
+                                    "label": "Immigration"
+                                },
+                                {
+                                    "score": 0.03261725588513847,
+                                    "label": "Agriculture"
+                                },
+                                {
+                                    "score": 0.04574151292657784,
+                                    "label": "Domestic"
+                                },
+                                {
+                                    "score": 0.012446504329789299,
+                                    "label": "Energy"
+                                },
+                                {
+                                    "score": 0.051260972154203756,
+                                    "label": "International"
+                                },
+                                {
+                                    "score": 0.012682881291787977,
+                                    "label": "Labor"
+                                },
+                                {
+                                    "score": 0.024552760632143168,
+                                    "label": "Environment"
+                                },
+                                {
+                                    "score": 0.008360161398350812,
+                                    "label": "Public"
+                                },
+                                {
+                                    "score": 0.014068718901632459,
+                                    "label": "Transportation"
+                                },
+                                {
+                                    "score": 0.020984787554157877,
+                                    "label": "Law"
+                                },
+                                {
+                                    "score": 0.49603124624618716,
+                                    "label": "Government"
+                                },
+                                {
+                                    "score": 0.05594975921324932,
+                                    "label": "Macroeconomics"
+                                },
+                                {
+                                    "score": 0.020830242659698208,
+                                    "label": "Defense"
+                                },
+                                {
+                                    "score": 0.011652109616067973,
+                                    "label": "Technology"
+                                },
+                                {
+                                    "score": 0.0023225631489211247,
+                                    "label": "Foreign"
+                                },
+                                {
+                                    "score": 0.009049675428769456,
+                                    "label": "Culture"
+                                },
+                                {
+                                    "score": 0.012861867217720731,
+                                    "label": "Health"
+                                },
+                                {
+                                    "score": 0.07217389206020892,
+                                    "label": "Social"
+                                }
+                            ]
+                        }
+                    ]
+      tags:
+        - Rede
+        - Charts
+  /parliamentbrowser/api/data/speech/save:
+    description: API Endpunkt um eine neue REde zu speichern oder die Änderungen an einer zu speichern
+    post:
+      summary: Die Daten der Rede werden in die DB gelegt
+      requestBody:
+        description: Die Daten der Rede
+        content:
+          application/json:
+            example: |-
+              [
+                {
+                    "entities": [
+                        {
+                            "count": 5,
+                            "label": "LOC"
+                        },
+                        {
+                            "count": 4,
+                            "label": "ORG"
+                        },
+                        {
+                            "count": 3,
+                            "label": "MISC"
+                        },
+                        {
+                            "count": 1,
+                            "label": "PER"
+                        }
+                    ],
+                    "pos": [
+                        {
+                            "count": 105,
+                            "label": "NN"
+                        },
+                        {
+                            "count": 4,
+                            "label": "PDAT"
+                        },
+                        {
+                            "count": 53,
+                            "label": "ART"
+                        },
+                        {
+                            "count": 22,
+                            "label": "ADJD"
+                        },
+                        {
+                            "count": 1,
+                            "label": "VAPP"
+                        },
+                        {
+                            "count": 25,
+                            "label": "ADJA"
+                        },
+                        {
+                            "count": 6,
+                            "label": "$("
+                        },
+                        {
+                            "count": 10,
+                            "label": "PRF"
+                        },
+                        {
+                            "count": 4,
+                            "label": "PTKVZ"
+                        },
+                        {
+                            "count": 8,
+                            "label": "PPOSAT"
+                        },
+                        {
+                            "count": 2,
+                            "label": "PRELS"
+                        },
+                        {
+                            "count": 32,
+                            "label": "PPER"
+                        },
+                        {
+                            "count": 31,
+                            "label": "$,"
+                        },
+                        {
+                            "count": 2,
+                            "label": "PIAT"
+                        },
+                        {
+                            "count": 38,
+                            "label": "$."
+                        },
+                        {
+                            "count": 2,
+                            "label": "VMINF"
+                        },
+                        {
+                            "count": 3,
+                            "label": "VMFIN"
+                        },
+                        {
+                            "count": 9,
+                            "label": "PTKZU"
+                        },
+                        {
+                            "count": 7,
+                            "label": "PTKNEG"
+                        },
+                        {
+                            "count": 14,
+                            "label": "PROAV"
+                        },
+                        {
+                            "count": 18,
+                            "label": "VVFIN"
+                        },
+                        {
+                            "count": 2,
+                            "label": "CARD"
+                        },
+                        {
+                            "count": 56,
+                            "label": "ADV"
+                        },
+                        {
+                            "count": 1,
+                            "label": "PWAV"
+                        },
+                        {
+                            "count": 6,
+                            "label": "PDS"
+                        },
+                        {
+                            "count": 1,
+                            "label": "VVIZU"
+                        },
+                        {
+                            "count": 10,
+                            "label": "KOUS"
+                        },
+                        {
+                            "count": 19,
+                            "label": "VVINF"
+                        },
+                        {
+                            "count": 1,
+                            "label": "PTKANT"
+                        },
+                        {
+                            "count": 16,
+                            "label": "VVPP"
+                        },
+                        {
+                            "count": 33,
+                            "label": "KON"
+                        },
+                        {
+                            "count": 2,
+                            "label": "VAINF"
+                        },
+                        {
+                            "count": 42,
+                            "label": "APPR"
+                        },
+                        {
+                            "count": 4,
+                            "label": "APPRART"
+                        },
+                        {
+                            "count": 4,
+                            "label": "NE"
+                        },
+                        {
+                            "count": 26,
+                            "label": "VAFIN"
+                        },
+                        {
+                            "count": 1,
+                            "label": "PIS"
+                        },
+                        {
+                            "count": 2,
+                            "label": "PTKA"
+                        }
+                    ],
+                    "topics": [
+                        {
+                            "score": 0.30292497469453855,
+                            "label": "Social"
+                        },
+                        {
+                            "score": 0.0011423104947724126,
+                            "label": "Foreign"
+                        },
+                        {
+                            "score": 0.03055962535502233,
+                            "label": "Law"
+                        },
+                        {
+                            "score": 0.49651471155658283,
+                            "label": "Government"
+                        },
+                        {
+                            "score": 0.006761911932329792,
+                            "label": "Health"
+                        },
+                        {
+                            "score": 0.002313757997197117,
+                            "label": "Transportation"
+                        },
+                        {
+                            "score": 0.0037257162520014883,
+                            "label": "Public"
+                        },
+                        {
+                            "score": 0.0076228327433700465,
+                            "label": "Labor"
+                        },
+                        {
+                            "score": 0.003994523737421982,
+                            "label": "Housing"
+                        },
+                        {
+                            "score": 0.009615477421497078,
+                            "label": "Defense"
+                        },
+                        {
+                            "score": 0.031240405913657763,
+                            "label": "Civil"
+                        },
+                        {
+                            "score": 0.002693020113272413,
+                            "label": "Energy"
+                        },
+                        {
+                            "score": 0.0026398336913541058,
+                            "label": "Technology"
+                        },
+                        {
+                            "score": 0.0014983643617639529,
+                            "label": "Education"
+                        },
+                        {
+                            "score": 0.04740878402869571,
+                            "label": "Domestic"
+                        },
+                        {
+                            "score": 0.0026291417595363156,
+                            "label": "Immigration"
+                        },
+                        {
+                            "score": 0.005138219162580151,
+                            "label": "Environment"
+                        },
+                        {
+                            "score": 0.0021476713065710596,
+                            "label": "Agriculture"
+                        },
+                        {
+                            "score": 0.019814421010290947,
+                            "label": "Macroeconomics"
+                        },
+                        {
+                            "score": 0.008723889230052474,
+                            "label": "Culture"
+                        },
+                        {
+                            "score": 0.010890361033743,
+                            "label": "International"
+                        }
+                    ],
+                    "sitzung": {
+                        "date": "2023-04-27",
+                        "sitzungsbeginn": "09:00:00",
+                        "wahlperiode": 20,
+                        "sitzungsende": "21:16:00",
+                        "sitzungsnummer": 100
+                    },
+                    "nlp_text": "<p>Sehr geehrte Frau Präsidentin!<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Liebe Kolleginnen und Kollegen!<span class=\"sentiment\">Sentiment: 0.7177</span></p><p>Den bisherigen Reden konnten wir entnehmen, dass sich die <mark class=\"ORG_NLP\">AfD</mark> überhaupt nicht für den Verbraucherschutz interessiert und sich stattdessen lieber mit Genderfragen auseinandersetzt <span class=\"kommentar\">(Dr. Götz Frömming [AfD]: Haben Sie überhaupt zugehört? Unsinn!)</span>und dass sich die <mark class=\"LOC_NLP\">Union</mark> letztendlich auch nicht auf die Seite von Verbraucherinnen und Verbrauchern schlägt.<span class=\"sentiment\">Sentiment: 0.1779</span></p><p>Wir tun das als SPD;<span class=\"sentiment\">Sentiment: 0.0</span></p><p>denn uns ist das wichtig.<span class=\"sentiment\">Sentiment: 0.4019</span></p><p><span class=\"kommentar\">(Beifall bei der SPD sowie des Abg. Stephan Thomae [FDP])</span>Meine Damen und Herren, stellen Sie sich vor, Ihre Bank verlangt zu hohe Gebühren von Ihnen, Ihr Internetanbieter hält die vereinbarten Leistungen nicht ein, oder Sie erwerben ein mangelhaftes Produkt.<span class=\"sentiment\">Sentiment: 0.1027</span></p><p>Wenn wir ein paar Jahre zurückdenken, an den Skandal um die Abschalteinrichtungen in <mark class=\"LOC_NLP\">Dieselfahrzeugen – das</mark> wurde schon erwähnt –, so hat dieser Skandal nicht nur international für Aufsehen gesorgt, sondern uns auch den Handlungsbedarf im Hinblick auf Verbraucherrechte aufgezeigt.<span class=\"sentiment\">Sentiment: -0.765</span></p><p><mark class=\"MISC_NLP\">Fakt</mark> ist doch, dass rechtswidriges und verbraucherschädigendes Verhalten von Unternehmen immer wieder vorkommt.<span class=\"sentiment\">Sentiment: -0.34</span></p><p>Und schlimm ist, wenn sie damit durchkommen, weil Verbraucherinnen und Verbraucher sich nicht dagegen wehren.<span class=\"sentiment\">Sentiment: -0.34</span></p><p>Es geht eben nicht nur um Einzelfälle, sondern auch um Fälle, wo massenweise Verbraucherinnen und Verbraucher betroffen sind.<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Es ist schlicht die Pflicht von Unternehmen, sich an Recht und Gesetz zu halten.<span class=\"sentiment\">Sentiment: 0.25</span></p><p>Und wenn sie es nicht tun, dann liegt es in unserem Interesse als Gesellschaft, den Geschädigten zu helfen und dafür zu sorgen, dass sie zu ihrem Recht kommen.<span class=\"sentiment\">Sentiment: 0.6597</span></p><p><span class=\"kommentar\">(Beifall bei der SPD sowie bei Abgeordneten des BÜNDNISSES 90/DIE GRÜNEN und der FDP)</span>Meine Damen und Herren, wir haben es hier häufig mit einem ungleichen Kräfteverhältnis zu tun – es wurde schon beschrieben –: auf der einen Seite den einzelnen Verbraucher oder die Verbraucherin und auf der anderen Seite häufig das große Unternehmen mit eigener Rechtsabteilung.<span class=\"sentiment\">Sentiment: 0.0258</span></p><p>Natürlich fragen sich die Geschädigten dann auch:<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Habe ich eigentlich die <mark class=\"MISC_NLP\">Zeit</mark> und die Kraft, die Ressourcen und auch das Geld, mich in einem langwierigen, meistens jahrelangen Klageverfahren dagegen aufzulehnen?<span class=\"sentiment\">Sentiment: 0.4939</span></p><p>Häufig ist die Antwort dann: Nein.<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Und das kann ich auch sehr gut nachvollziehen.<span class=\"sentiment\">Sentiment: 0.5256</span></p><p>Deswegen ist es wichtig, an dieser Stelle die Kräfte zu bündeln.<span class=\"sentiment\">Sentiment: 0.7096</span></p><p>Mit der <mark class=\"MISC_NLP\">Musterfeststellungsklage 2018</mark> ist ein richtiger Schritt in diese Richtung gegangen worden;<span class=\"sentiment\">Sentiment: 0.3818</span></p><p>denn es gibt seitdem das unbürokratische Anschließen an Klagen, die bereits von Verbraucherverbänden in die Wege geleitet wurden.<span class=\"sentiment\">Sentiment: -0.4019</span></p><p>Das <mark class=\"LOC_NLP\">Problem</mark> ist – es wurde bereits beschrieben –:<span class=\"sentiment\">Sentiment: -0.2732</span></p><p>Der Schadensersatz muss jedoch noch individuell eingeklagt werden.<span class=\"sentiment\">Sentiment: 0.4767</span></p><p>Die <mark class=\"ORG_NLP\">EU-Verbandsklagenrichtlinie</mark> geht jetzt genau diesen einen fehlenden Schritt weiter und ist deswegen ein Meilenstein im Verbraucherschutz.<span class=\"sentiment\">Sentiment: 0.296</span></p><p><span class=\"kommentar\">(Beifall bei der SPD sowie bei Abgeordneten des BÜNDNISSES 90/DIE GRÜNEN und der FDP)</span>Meine Kollegin <mark class=\"PER_NLP\">Luiza Licina-Bode</mark> hat schon einiges zum Gesetzentwurf gesagt.<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Für mich als Verbraucherpolitikerin ist entscheidend, dass wir die <mark class=\"ORG_NLP\">EU-Richtlinie</mark> möglichst verbraucherfreundlich umsetzen und die Nutzung dieses <mark class=\"LOC_NLP\">Klageverfahrens</mark> auch ermöglichen.<span class=\"sentiment\">Sentiment: 0.3612</span></p><p>Denn genau dafür ist sie auch gedacht: möglichst viele Menschen zu erreichen und damit die Gerichte von Individualklagen zu entlasten.<span class=\"sentiment\">Sentiment: 0.6808</span></p><p>Ich bin froh, dass der <mark class=\"ORG_NLP\">Bundesminister der Justiz</mark> die Kritikpunkte, die es bereits früh gab, aufgenommen hat.<span class=\"sentiment\">Sentiment: 0.4588</span></p><p>Dazu gehörten die Verschiebung des Zeitpunktes, sich dem Verfahren anschließen zu können, und auch die Senkung der Hürden für klageberechtigte Verbände.<span class=\"sentiment\">Sentiment: 0.1027</span></p><p>Aus verbraucherpolitischer Sicht ist allerdings durchaus noch Luft nach oben.<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Die Anzahl der glaubhaft zu machenden Fälle ist aus meiner Sicht mit 50 noch zu hoch;<span class=\"sentiment\">Sentiment: 0.3182</span></p><p>das wird uns auch aus der Praxis so gemeldet.<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Und es sollte auch möglich sein, sich noch nach Abschluss eines Verfahrens im <mark class=\"LOC_NLP\">Nachhinein</mark> und jederzeit anschließen, letztendlich davon profitieren und das eigene Recht geltend machen zu können.<span class=\"sentiment\">Sentiment: 0.6124</span></p><p>Denn geschädigt bleibt nun mal geschädigt.<span class=\"sentiment\">Sentiment: -0.7003</span></p><p>Ich bin deshalb sehr gespannt auf die weiteren Beratungen und bringe mich dabei gerne selbst ein.<span class=\"sentiment\">Sentiment: 0.0</span></p><p>Herzlichen Dank.<span class=\"sentiment\">Sentiment: 0.5719</span></p>",
+                    "sentiments": [
+                        {
+                            "score": 0.1572828571428571,
+                            "label": "sentiment"
+                        },
+                        {
+                            "score": 0.05102857142857143,
+                            "label": "neg"
+                        },
+                        {
+                            "score": 0.14145714285714284,
+                            "label": "pos"
+                        },
+                        {
+                            "score": 0.8074857142857143,
+                            "label": "neu"
+                        }
+                    ],
+                    "_id": "ID2010007300",
+                    "abgeordneter": 11005084,
+                    "text": "Sehr geehrte Frau Präsidentin! Liebe Kolleginnen und Kollegen! Den bisherigen Reden konnten wir entnehmen, dass sich die AfD überhaupt nicht für den Verbraucherschutz interessiert und sich stattdessen lieber mit Genderfragen auseinandersetzt und dass sich die Union letztendlich auch nicht auf die Seite von Verbraucherinnen und Verbrauchern schlägt. Wir tun das als SPD; denn uns ist das wichtig. Meine Damen und Herren, stellen Sie sich vor, Ihre Bank verlangt zu hohe Gebühren von Ihnen, Ihr Internetanbieter hält die vereinbarten Leistungen nicht ein, oder Sie erwerben ein mangelhaftes Produkt. Wenn wir ein paar Jahre zurückdenken, an den Skandal um die Abschalteinrichtungen in Dieselfahrzeugen – das wurde schon erwähnt –, so hat dieser Skandal nicht nur international für Aufsehen gesorgt, sondern uns auch den Handlungsbedarf im Hinblick auf Verbraucherrechte aufgezeigt. Fakt ist doch, dass rechtswidriges und verbraucherschädigendes Verhalten von Unternehmen immer wieder vorkommt. Und schlimm ist, wenn sie damit durchkommen, weil Verbraucherinnen und Verbraucher sich nicht dagegen wehren. Es geht eben nicht nur um Einzelfälle, sondern auch um Fälle, wo massenweise Verbraucherinnen und Verbraucher betroffen sind. Es ist schlicht die Pflicht von Unternehmen, sich an Recht und Gesetz zu halten. Und wenn sie es nicht tun, dann liegt es in unserem Interesse als Gesellschaft, den Geschädigten zu helfen und dafür zu sorgen, dass sie zu ihrem Recht kommen. Meine Damen und Herren, wir haben es hier häufig mit einem ungleichen Kräfteverhältnis zu tun – es wurde schon beschrieben –: auf der einen Seite den einzelnen Verbraucher oder die Verbraucherin und auf der anderen Seite häufig das große Unternehmen mit eigener Rechtsabteilung. Natürlich fragen sich die Geschädigten dann auch: Habe ich eigentlich die Zeit und die Kraft, die Ressourcen und auch das Geld, mich in einem langwierigen, meistens jahrelangen Klageverfahren dagegen aufzulehnen? Häufig ist die Antwort dann: Nein. Und das kann ich auch sehr gut nachvollziehen. Deswegen ist es wichtig, an dieser Stelle die Kräfte zu bündeln. Mit der Musterfeststellungsklage 2018 ist ein richtiger Schritt in diese Richtung gegangen worden; denn es gibt seitdem das unbürokratische Anschließen an Klagen, die bereits von Verbraucherverbänden in die Wege geleitet wurden. Das Problem ist – es wurde bereits beschrieben –: Der Schadensersatz muss jedoch noch individuell eingeklagt werden. Die EU-Verbandsklagenrichtlinie geht jetzt genau diesen einen fehlenden Schritt weiter und ist deswegen ein Meilenstein im Verbraucherschutz. Meine Kollegin Luiza Licina-Bode hat schon einiges zum Gesetzentwurf gesagt. Für mich als Verbraucherpolitikerin ist entscheidend, dass wir die EU-Richtlinie möglichst verbraucherfreundlich umsetzen und die Nutzung dieses Klageverfahrens auch ermöglichen. Denn genau dafür ist sie auch gedacht: möglichst viele Menschen zu erreichen und damit die Gerichte von Individualklagen zu entlasten. Ich bin froh, dass der Bundesminister der Justiz die Kritikpunkte, die es bereits früh gab, aufgenommen hat. Dazu gehörten die Verschiebung des Zeitpunktes, sich dem Verfahren anschließen zu können, und auch die Senkung der Hürden für klageberechtigte Verbände. Aus verbraucherpolitischer Sicht ist allerdings durchaus noch Luft nach oben. Die Anzahl der glaubhaft zu machenden Fälle ist aus meiner Sicht mit 50 noch zu hoch; das wird uns auch aus der Praxis so gemeldet. Und es sollte auch möglich sein, sich noch nach Abschluss eines Verfahrens im Nachhinein und jederzeit anschließen, letztendlich davon profitieren und das eigene Recht geltend machen zu können. Denn geschädigt bleibt nun mal geschädigt. Ich bin deshalb sehr gespannt auf die weiteren Beratungen und bringe mich dabei gerne selbst ein. Herzlichen Dank. ",
+                    "laenge": 546,
+                    "agenda": {
+                        "titel": "Tagesordnungspunkt 12",
+                        "agenda_nr": 7
+                    },
+                    "kommentare": [
+                        {
+                            "text": "(Dr. Götz Frömming [AfD]: Haben Sie überhaupt zugehört? Unsinn!)",
+                            "abgeordneter": "",
+                            "fraktionen": [
+                                "AfD"
+                            ],
+                            "pos": 242
+                        },
+                        {
+                            "text": "(Beifall bei der SPD sowie des Abg. Stephan Thomae [FDP])",
+                            "abgeordneter": "",
+                            "fraktionen": [
+                                "Fraktion der Freien Demokratischen Partei",
+                                "Fraktion der Sozialdemokratischen Partei Deutschlands"
+                            ],
+                            "pos": 398
+                        },
+                        {
+                            "text": "(Beifall bei der SPD sowie bei Abgeordneten des BÜNDNISSES 90/DIE GRÜNEN und der FDP)",
+                            "abgeordneter": "",
+                            "fraktionen": [
+                                "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                                "Fraktion BÜNDNIS 90/DIE GRÜNEN",
+                                "Fraktion der Freien Demokratischen Partei"
+                            ],
+                            "pos": 1471
+                        },
+                        {
+                            "text": "(Beifall bei der SPD sowie bei Abgeordneten des BÜNDNISSES 90/DIE GRÜNEN und der FDP)",
+                            "abgeordneter": "",
+                            "fraktionen": [
+                                "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                                "Fraktion BÜNDNIS 90/DIE GRÜNEN",
+                                "Fraktion der Freien Demokratischen Partei"
+                            ],
+                            "pos": 2598
+                        },
+                        {
+                            "text": "(Beifall bei der SPD sowie bei Abgeordneten des BÜNDNISSES 90/DIE GRÜNEN und der FDP)",
+                            "abgeordneter": "",
+                            "fraktionen": [
+                                "Fraktion der Freien Demokratischen Partei",
+                                "Fraktion der Sozialdemokratischen Partei Deutschlands",
+                                "Fraktion BÜNDNIS 90/DIE GRÜNEN"
+                            ],
+                            "pos": 3813
+                        }
+                    ]
+                }
+              ]
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              example: { "message": "Speech editet", "id": "ID1910011100" }
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das Recht eine Rede zu erstellen oder zu editieren
+      tags:
+        - Rede
+        - Sitzung
+  /parliamentbrowser/api/data/speech/delete:
+    description: API Endpunkt um eine Rede zu löschen
+    delete:
+      summary: die Rede mit der ID wird gelöscht
+      parameters:
+        - name: id
+          in: query
+          description: id der zu löschenden Rede
+          required: true
+          schema:
+            type: string
+            example: ID1910011100
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage/Löschung
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das Recht eine Rede zu löschen
+      tags:
+        - Rede
+        - Sitzung
+
+  /edit/sitzung:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt Java Objekte für Freemarker zurück (Sitzung zum bearbeiten)
+      description: Es wird ein Template gerendert mit einer Sitzung und deren Tagesordnungspunkten
+      parameters:
+        - name: snumber
+          in: query
+          required: true
+          description: nummer der Sitzung
+          schema:
+            type: integer
+            format: int32
+        - name: wp
+          in: query
+          required: true
+          description: nummer der Wahlperiode
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Sitzung
+  /parliamentbrowser/api/data/sitzung/save:
+    description: API Endpunkt um die Daten der Sitzung und der Tagesordnungspunkte in alle zugehörigen Reden zu ängern
+    post:
+      summary: Die Daten der Sitzung und TOP werden gespeichert
+      description: API Endpunkt um die Daten der Sitzung und der Tagesordnungspunkte in alle zugehörigen Reden zu ängern
+      requestBody:
+        description: Die Daten der Sitzung mit TOPS
+        content:
+          application/json:
+            example: |-
+              {
+                "sitzungsnummer" : 100,
+                "old_sitzungsnummer" : 99,
+                "date": "2019-07-13",
+                "sitzungsbeginn": "09:00",
+                "sitzungsende": "18:53",
+                "wahlperiode": 19,
+                "old_wahlperiode": 20,
+                "tops" : 
+                  [
+                      {
+                        "agenda_nr": 2,
+                        "titel": "Tagesordnungspunkt 2",
+                        "oldTOP": 1
+                      }
+                  ]
+                
+              }
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das Recht eine Sitzung zu ändern
+      tags:
+        - Sitzung
+  /parliamentbrowser/api/data/sitzung/delete:
+    description: API Endpunkt um eine Sitzung mit allen Reden zu löschen
+    delete:
+      summary: die Sitzung einschließlich aller Reden wird gelöchst
+      parameters:
+        - name: snumber
+          in: query
+          required: true
+          description: nummer der Sitzung
+          schema:
+            type: integer
+            format: int32
+        - name: wp
+          in: query
+          required: true
+          description: nummer der Wahlperiode
+          schema:
+            type: integer
+            format: int32
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage/Löschung
+        "401":
+          description: Der user ist nicht eingelogt
+        "403":
+          description: Der User hat nicht das Recht eine Rede zu löschen
+      tags:
+        - Rede
+        - Sitzung
+  /:
+    description: Eine Seite des Frontends
+    get:
+      summary: Gibt Java Objekte für Freemarker zurück
+      description: Die Homepage wird gerendert
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Home
+  /parliamentbrowser/api/data/processing/progress:
+    description: Fortschritt der Verarbeitung und des Downloads
+    get:
+      summary: Fortschritt der Verarbeitung und des Downloads
+      description: Gibt die Prozente des Donwloads und der Verarbeitung zurück
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              example: { "downloadProgress": 0.3, "processingProgress": 53 }
+      tags:
+        - Home
+  /parliamentbrowser/api/data/processing/missingSpeeches:
+    description: Starte Verarbeitung der unverarbeiteten Reden
+    post:
+      summary: Starte Verarbeitung der unverarbeiteten Reden
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: User ist nicht eingelogt
+        "403":
+          description: Hat nicht das Recht NLP-Verarbeitung zu starten
+      tags:
+        - Home
+  /parliamentbrowser/api/data/processing/missingProtocols:
+    description: Starte download der Sitzungen und Verarbeitung der Reden
+    post:
+      summary: Starte download der Sitzungen und Verarbeitung der Reden
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: User ist nicht eingelogt
+        "403":
+          description: Hat nicht das Recht NLP-Verarbeitung zu starten oder Sitzungen zu erstellen
+      tags:
+        - Home
+  /parliamentbrowser/api/user/login:
+    description: Einloggen
+    post:
+      summary: Loggt den User ein, bei Erfolg wird ein sessionID erstellt
+      parameters:
+        - name: username
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: header
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+          content:
+            application/json:
+              example: { "sessionID": "hdaopfhpoadpotqpoh92rhdfb" }
+        "401":
+          description: Passwort ungültig oder username nicht existent
+
+      tags:
+        - User
+  /parliamentbrowser/api/user/logout:
+    description: Ausloggen
+    post:
+      summary: Loggt den User aus, und setzt die session ID auf ungültig
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - User
+  /parliamentbrowser/api/user/changePwd:
+    description: Passwort ändern
+    post:
+      summary: Ändert das Passwort eines eingeloggten Users
+      parameters:
+        - name: user
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: oldPwd
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: newPwd
+          in: header
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: Passwort ungültig oder username nicht existent oder nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht das Passwort zu ändern
+      tags:
+        - User
+  /parliamentbrowser/api/user/delete-user:
+    description: user löschen
+    delete:
+      summary: löschte einen User
+      parameters:
+        - name: username
+          in: header
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht user zu löschen
+      tags:
+        - User
+  /parliamentbrowser/api/user/safe-user:
+    description: Änderungen am user werden gespeichert
+    post:
+      summary: Änderungen am user werden gespeichert
+      parameters:
+        - name: newName
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: oldName
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: group
+          in: header
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "400":
+          description: Username existiert bereits
+        "401":
+          description: nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht user zu bearbeiten
+      tags:
+        - User
+  /parliamentbrowser/api/user/add-user:
+    description: Neuer user wird erstellt
+    post:
+      summary: neuer user wird in die DB gespeichert
+      parameters:
+        - name: username
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: group
+          in: header
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "400":
+          description: Username existiert bereits
+        "401":
+          description: nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht user zu erstellen
+      tags:
+        - User
+  /parliamentbrowser/api/user/save-group:
+    description: Neuer user wird erstellt
+    post:
+      summary: gruppe bearbeitet
+      parameters:
+        - name: oldName
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: newName
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: rights
+          in: header
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "400":
+          description: groupname existiert bereits
+        "401":
+          description: nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht gruppen zu bearbeiten
+      tags:
+        - User
+  /parliamentbrowser/api/user/add-group:
+    description: Neuer Gruppe wird erstellt
+    post:
+      summary: neue Gruppe wird in DB gespeichert
+      parameters:
+        - name: name
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: rights
+          in: header
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "400":
+          description: groupname existiert bereits
+        "401":
+          description: nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht gruppen zu erstellen
+      tags:
+        - User
+  /parliamentbrowser/api/user/delete-group:
+    description: Gruppe wird gelöscht
+    delete:
+      summary: Gruppe wird gelöscht
+      parameters:
+        - name: name
+          in: header
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+        "401":
+          description: nicht eingeloggt
+        "403":
+          description: User hat nicht das Recht gruppen zu löschen
+      tags:
+        - User
+  /charts:
+    description: Eine Seite des Frontends
+    get:
+      summary: rendert die Seite Charts im frontend
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Charts
+  /updateDataBubbleChart:
+    description: Updated daten des Bubble Charts
+    post:
+      summary: schreibt daten für das Bubble Chart in eine Datei
+      parameters:
+        - name: jsonData
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Charts
+  /updateDataSunburst:
+    description: Updated daten des Sunbursts
+    post:
+      summary: schreibt daten für das Sunburst in eine Datei
+      parameters:
+        - name: jsonData
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Charts
+  /updateDataHorizontalBarChart:
+    description: Updated daten des Horizontal Bar Charts
+    post:
+      summary: schreibt daten für das Horizontal Bar Chart in eine Datei
+      parameters:
+        - name: jsonData
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Charts
+  /updateDataRadarChart:
+    description: Updated daten des Radar Charts
+    post:
+      summary: schreibt daten für das Radar Chart in eine Datei
+      parameters:
+        - name: jsonData
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Charts
+  /updateDataBarChart:
+    description: Updated daten des Bar Charts
+    post:
+      summary: schreibt daten für das Bar Chart in eine Datei
+      parameters:
+        - name: jsonData
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Erfolgreiche Anfrage
+      tags:
+        - Charts
+tags:
+  - name: Abgeordnete
+    description: Alles was mit abgeordneten zu tun hat
+  - name: Rede
+    description: Alles was mit reden zu tun hat
+  - name: Sitzung
+    description: Alles was mit Sitzungen/Protokollen zu tun hat
+  - name: Home
+    description: Alles was mit der Homepage zu tun hat
+  - name: User
+    description: Alles was mit user anfragen zu tun hat
+  - name: Charts
+    description: alles was mit Charts zu tun hat

@@ -1,0 +1,908 @@
+/*
+css style implemented by Kimon Raschke and Kester Rumke and Genadij Vorontsov
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+:root {
+  --primary-color: #f1f1f1;
+  --secondary-color: #161815;
+  --accent-color: #29431c;
+  --accent-color2: #d83838;
+}
+
+.container {
+  margin: 2em 3em;
+}
+
+input[type="text"],
+input[type="password"] {
+  border: var(--secondary-color) 0.5px solid;
+  font-size: 13px;
+  height: 20px;
+  width: 130px;
+  padding: 0 2px;
+}
+
+/* Fuer header */
+
+header {
+  position: sticky;
+  background-color: #fff;
+  z-index: 10;
+  top: 0;
+  padding: 2em 2em 1em;
+  border-bottom: #d0d0d0 1px solid;
+}
+
+header ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+header ul li {
+  margin-right: 4em;
+}
+
+header li#current a {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+header ul li a {
+  font-size: 2em;
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+header ul li a:hover {
+  color: #606060;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .loginForm {
+  display: none;
+  position: absolute;
+  background-color: var(--primary-color);
+  right: 20px;
+  bottom: -150px;
+  width: 200px;
+  height: 130px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+header .loginFormContainer {
+  height: inherit;
+  margin: 0 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.loginFormContainer #login {
+  font-size: 0.7em;
+}
+
+.loginFormContainer input {
+  width: 100%;
+}
+
+.loginFormContainer a {
+  text-decoration: none;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.loginFormContainer a:hover {
+  color: #606060;
+}
+
+.search form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 4rem;
+  align-items: center;
+}
+
+.submitButton {
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--accent-color);
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0 2em;
+  border: var(--accent-color) 1px solid;
+  border-radius: 15px;
+}
+
+.buttonRed {
+  color: var(--accent-color2);
+  border-color: var(--accent-color2);
+}
+
+button.buttonRed:hover {
+  background-color: var(--accent-color2);
+  color: var(--primary-color);
+}
+
+.submitButton:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.search .searchInput[type="text"] {
+  border: var(--secondary-color) 1px solid;
+  height: 15px;
+  padding: 0 2px;
+}
+
+.search .toggleButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 15px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 34px;
+  border: black 1px solid;
+  background-color: #fff;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: -4px;
+  bottom: -3.5px;
+  border-radius: 50%;
+  border: black 1px solid;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.listElement {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  border-bottom: #d0d0d0 1px solid;
+  padding: 0.5em 0;
+  user-select: none;
+}
+
+.listElementReden {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  border-bottom: #d0d0d0 1px solid;
+  padding: 0.5em 0;
+}
+
+.listHeader {
+  font-weight: bold;
+  border-bottom: var(--accent-color) 2px solid;
+  padding: 0 0 0.25em;
+}
+
+.listHeader p {
+  color: var(--accent-color);
+}
+
+.list span {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list span {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listElement a {
+  text-decoration: none;
+  color: #000;
+}
+
+.listElement a:hover {
+  color: #606060;
+}
+
+.list {
+  margin-top: 2em;
+}
+
+.abgeordnetenListPartei {
+  width: 200px;
+  margin-right: 2em;
+}
+
+/* Fuer abgeordnete.ftl */
+
+.abgeordnetenListFraktion {
+  width: 300px;
+}
+
+.addABButtonContainer {
+  margin-left: 20rem;
+}
+
+/* Fuer reden.ftl */
+
+.abgeordnetenListSitzungsnummer {
+  width: 136px;
+}
+
+.listElementReden a {
+  text-decoration: none;
+  color: var(--secondary-color);
+}
+
+.listElementReden:hover,
+.listElementReden a:hover {
+  color: #606060;
+}
+
+/* Fuer home.ftl */
+
+.homeContainer {
+  text-align: center;
+  margin-top: 10rem;
+  font-size: 25px;
+}
+
+.interface {
+  margin: 10rem auto;
+  width: 70%;
+}
+
+.interface div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dbStatus {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10rem;
+  align-items: center;
+  margin: 2em 0;
+}
+
+.nlpAnalyse {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 12rem;
+  align-items: flex-start;
+  margin: 4em 0;
+}
+
+.dbStatus button,
+.accentColor,
+.loading {
+  display: none;
+}
+
+.nlpAnalyse .accentColor,
+.nlpAnalyse button,
+.progressBarContainer {
+  display: none;
+}
+
+#visible {
+  display: block;
+}
+
+.interface .submitButton {
+  font-size: 1.5em;
+}
+
+.interface .accentColor {
+  color: var(--accent-color);
+  text-transform: uppercase;
+}
+
+.dbStatus .loading {
+  color: #af4646;
+  text-transform: uppercase;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.5;
+  }
+}
+
+.progressBar {
+  width: 250px;
+  position: relative;
+  margin-top: 4px;
+  height: 2em;
+  border: var(--accent-color) 2px solid;
+  overflow: hidden;
+}
+
+.progressBarContainer .submitButton {
+  margin: 2rem 0 0 27px;
+}
+
+.progressBarFill {
+  position: absolute;
+  height: 100%;
+  background-color: var(--accent-color);
+}
+
+.progressBarText {
+  margin-left: 1rem;
+}
+
+/* Fuer abgeordneter.ftl */
+
+.steckbrief {
+  margin: 2em 0;
+}
+
+#editABButton {
+  margin-top: 2rem;
+}
+
+.steckbrief bold {
+  font-weight: bold;
+}
+
+#abgeordneterName {
+  font-size: 4em;
+}
+
+.abgeordneterMandate table {
+  margin-top: 1em;
+  border-collapse: separate;
+  table-layout: auto;
+}
+
+.abgeordneterMandate table th {
+  padding: 0.5em 1em;
+}
+
+.abgeordneterMandate table td {
+  padding: 0 1em;
+}
+
+.abgeordneterReden {
+  margin-top: 2em;
+}
+
+.abgeordneterReden table {
+  margin-top: 1em;
+  border-collapse: separate;
+  table-layout: auto;
+}
+
+.abgeordneterReden tbody tr:hover {
+  cursor: pointer;
+  color: #606060;
+}
+
+.abgeordneterInst {
+  margin-top: 2em;
+}
+
+.abgeordneterInst table {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-collapse: separate;
+  table-layout: auto;
+}
+
+.abgeordneterInst table th {
+  padding: 0.5em 1em;
+}
+
+.abgeordneterInst table td {
+  padding: 0 1em;
+}
+
+/* Fuer eine Rede */
+
+mark.PER_NLP {
+  background-color: #bd81f5;
+}
+
+mark.LOC_NLP {
+  background-color: #98df67;
+}
+
+mark.ORG_NLP {
+  background-color: #81a5f5;
+}
+
+mark.MISC_NLP {
+  background-color: #81523c;
+}
+
+.legende mark {
+  font-weight: bold;
+}
+
+.legende .nomen {
+  margin-top: 1em;
+}
+
+.noNLPLegende {
+  font-weight: bold;
+}
+
+.namedEntities {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+}
+
+span.kommentar {
+  color: red;
+}
+
+.textContainer p {
+  display: inline;
+  position: relative;
+}
+
+.textContainer {
+  margin-top: 2rem;
+}
+
+span.sentiment {
+  visibility: hidden;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  min-width: 160px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 28px;
+  transform: translateX(-73px);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+span.sentiment::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--accent-color) transparent transparent transparent;
+}
+
+.textContainer p::after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f05a";
+}
+
+.textContainer p:hover span.sentiment {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Fuer charts */
+
+.chart-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.chart-row > div {
+  flex: 0 0 30%;
+}
+
+.chart-row-2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.chart-row-2 > div {
+  flex: 0 0 30%;
+}
+
+/* Fuer search und calender */
+
+.search-and-calender {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+}
+
+.date-picker,
+.search-input {
+  margin-right: 10px;
+}
+
+.date-picker input {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  width: 180px;
+}
+
+.search-input input {
+  padding: 17px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  width: 180px;
+}
+
+#searchButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+#searchResults {
+  background: #e1e1e1;
+}
+
+#panelText {
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.image {
+  margin-top: 15px;
+  margin-left: 2px;
+}
+
+.protocolList {
+  margin: 0;
+  padding: 0;
+}
+
+.descriptions p {
+  margin-bottom: 5px;
+}
+
+.tagesordnungButton {
+  cursor: pointer;
+}
+
+.tagesordnungButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tagesordnungList {
+  margin-top: 10px;
+  margin-left: 45px;
+  text-align: left;
+  border-top: #d0d0d0 1px solid;
+  padding: 0.5em 0;
+}
+
+.redenButton {
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.redenButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.redenList {
+  margin-left: 50px;
+  text-align: left;
+  border-top: #d0d0d0 1px solid;
+  padding: 0.5em 0;
+}
+
+.pdfButton {
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.pdfButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ------------ usersettings ------------*/
+
+.passwordChanger form {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 1em;
+}
+
+.passwordChanger {
+  width: 22rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.users {
+  margin-top: 4em;
+  text-align: center;
+}
+
+.users h1 {
+  margin-bottom: 1em;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 0;
+}
+
+.addButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  gap: 1em;
+  margin-top: 2em;
+}
+
+/* ------------ fuer edit abgeordneter ------------*/
+
+.mainProfileEdit {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1em;
+}
+
+.mainProfileEdit label {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mainProfileEdit input {
+  width: 100%;
+}
+
+.vita {
+  margin-top: 1rem;
+}
+
+.vita textarea {
+  width: 100%;
+  resize: none;
+  font-size: 13px;
+}
+
+.upperSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1em;
+}
+
+.upperSection .imageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 1rem;
+}
+
+.upperSection .imageDisplayer {
+  display: none;
+  margin-bottom: 1rem;
+}
+
+.upperSection .imageContainer img {
+  height: 350px;
+  max-width: 600px;
+  object-fit: cover;
+}
+
+.sectionElement {
+  margin-top: 2rem;
+}
+
+.sectionDisplayer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+.addSectionElement {
+  margin-top: 1rem;
+}
+
+#fraktionsMitgliedschaft {
+  width: 250px;
+}
+
+#instTitel {
+  width: 200px;
+}
+
+#instFunktion {
+  width: 170px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+/* ------------ fuer edit rede ------------*/
+
+.speechSection {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.speechSection textarea {
+  width: 100%;
+  resize: none;
+  font-size: 13px;
+}
+
+.speechSection .fraktionen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.speechSection .comment {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.speechSection .comment input[type="text"] {
+  width: 80%;
+}
+
+.speechSection .comment #fraktion {
+  width: 100%;
+}
+
+.speechSection .comment .resizable {
+  width: 25%;
+}
+
+.speechSection .comment select {
+  width: 140px;
+}
+
+.speechSection .comment input[type="number"] {
+  width: 60px;
+}
+
+.speechSection span {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+#cursorPosition {
+  width: 2rem;
+}
+
+/* ------------ fuer edit sitzung ------------*/
+
+.topContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainProfileEdit {
+  width: 100%;
+}
+
+.topList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

@@ -1,0 +1,10 @@
+*.class
+*.jar
+*.war
+.idea/
+*.iml
+.vscode/
+target/
+build/
+bin/
+*.pdf
