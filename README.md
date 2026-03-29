@@ -1,11 +1,11 @@
 # 🏛️ Parlament Datenverarbeitung
 
-Dieses Projekt bietet eine umfassende Verarbeitung von Parlamentsdaten des Deutschen Bundestages. Diese werden analysiert, in einer MongoDB-Datenbank gespeichert und über eine REST-API bereitgestellt. Es umfasst Funktionen für Web Scraping, XML-Parsing, komplexe NLP-Analysen via UIMA und Frontend-Management.
+Dieses Projekt bietet eine umfassende Verarbeitung von Parlamentsdaten des Deutschen Bundestags. Diese werden analysiert, in einer MongoDB-Datenbank gespeichert und über eine REST-API bereitgestellt. Es umfasst Funktionen für Web Scraping, XML-Parsing, komplexe NLP-Analysen via UIMA und Frontend-Management.
 
 ## 🚀 Hauptfunktionen
 
 - **Datenaufnahme**: Ruft Parlamentsdaten und Protokolle von externen Quellen (Webseite des Deutschen Bundestages/Open Data) ab der 19. Legislaturperiode mithilfe von Web-Scraping-Techniken (Jsoup) ab. Beinhaltet eine Prüfung auf bereits vorhandene Daten.
-- **XML-Parsing**: Parst XML-Daten aus Parlamentssitzungen, um relevante Informationen (Reden, Kommentare, Redner, Fraktionen) zu extrahieren und strukturiert abzubilden.
+- **XML-Parsing**: Parsen XML-Daten aus Parlamentssitzungen, um relevante Informationen (Reden, Kommentare, Redner, Fraktionen) zu extrahieren und strukturiert abzubilden.
 - **Datenspeicherung**: Speichert verarbeitete Daten in einer MongoDB-Datenbank. Umfasst Collections für Reden, Protokolle und Abgeordnete (inkl. Metadaten und Bildern).
 - **NLP-Analyse**: Integriert eine UIMA-Pipeline via DUUI (Docker Unified UIMA Interface) für:
   - **Tokenisierung, POS-Tagging, Named Entity Recognition (NER)** mittels spaCy.
